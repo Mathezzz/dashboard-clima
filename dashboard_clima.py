@@ -9,10 +9,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
 import plotly.express as px
-import json
-import os
 
 
 @st.cache_data(ttl=600)
