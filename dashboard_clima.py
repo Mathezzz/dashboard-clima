@@ -85,7 +85,9 @@ if cidade_selecionada != "Todas":
 
 # Filtra último horário disponível
 hora_mais_recente = df['Hora_Str'].max()
-df_ultima_hora = df[df['Hora_Str'] == hora_mais_recente]
+dia_mais_recente = df["Data"].max()
+df_ultima_hora = df[df["Data"] == dia_mais_recente]
+df_ultima_hora = df_ultima_hora[df_ultima_hora['Hora_Str'] == hora_mais_recente]
 
 # ------------------------- Cards superiores ----------------------------------
 st.markdown("# Métricas pelo Brasil:")
@@ -152,6 +154,7 @@ with col1:
 with col2:
     with st.container(border=True):
         # Cidades mais quentes
+        st.write(dia_mais_recente)
         st.subheader("🔥 Top 5 Cidades Mais Quentes da Última Hora")
         top_quentes = df_ultima_hora.sort_values("Temperatura (ºc)", ascending=False).head(5)
         st.table(top_quentes[["Cidade", "Temperatura (ºc)", "Hora"]].reset_index(drop=True))
