@@ -13,6 +13,10 @@ import plotly.express as px
 import logging
 
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.debug("Inicializando código")
+
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
@@ -36,8 +40,11 @@ st.set_page_config(
 )
 st.title("🌡️ Dashboard de Clima - Capitais do Brasil")
 
+logger.debug("Consulta dos dados na API GCP")
 df = carregar_dados_sheet()
+logger.debug("Dados carregados, tabela: {}".format(df.shape))
 
+logger.debug("Tratamento dos dados")
 # -------------- ETL rápido de quebra galho -----------------------------------
 df['Data/Hora'] = pd.to_datetime(df['Data/Hora'], format="%d/%m/%Y %H:%M:%S")
 # Criar a coluna de data e a de hora separadamente
@@ -58,6 +65,7 @@ for col in ['Temperatura (ºc)', 'Sensação Térmica', 'Vento (m/s)']:
 # -----------------------------------------------------------------------------
 
 # -------------------- Aplicação de filtros do Dashboard ----------------------
+logger.debug("Gerando visualizações")
 col1, col2 = st.columns(2)
 # Filtro de cidade
 cidades = ["Todas"] + sorted(df["Cidade"].unique().tolist())
